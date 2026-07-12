@@ -41,7 +41,13 @@ def train_model(train_df, device, epochs=8, lr=1e-4, batch_size=16):
         replacement=True             # allows minority class to be repeated
     )
     dl = DataLoader(ds, batch_size=batch_size, sampler=sampler)
+    sampled_counts = {0: 0, 1: 0}
 
+    for _, labels in dl:
+        for label in labels.tolist():
+            sampled_counts[label] += 1
+
+    print("DataLoader sampled counts:", sampled_counts)
     model = build_model(device)
     opt = torch.optim.Adam(model.parameters(), lr=lr)
     loss_fn = nn.CrossEntropyLoss()
