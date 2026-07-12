@@ -15,9 +15,12 @@ TRANSFORM = transforms.Compose([
                           std=[0.229, 0.224, 0.225]),   # required since we reuse its pretrained weights
 ])
 
-def build_model(device):
-    model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)  # pretrained on ImageNet
-    model.fc = nn.Linear(model.fc.in_features, 2)   # swap final layer: 1000 classes -> 2 (clean/defective)
+def build_model(device, freeze_backbone=True):
+    model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
+    if freeze_backbone:
+        for param in model.parameters():
+            param.requires_grad = False   # freeze everything...
+    model.fc = nn.Linear(model.fc.in_features, 2)  # ...then replace fc (new layer is trainable by default)
     return model.to(device)
 
 def train_model(train_df, device, epochs=8, lr=1e-4, batch_size=16):
