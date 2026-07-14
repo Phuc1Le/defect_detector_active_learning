@@ -1,7 +1,9 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 from active_learning import run_loop
+from train import build_model
 from train import TRANSFORM
+import copy
 import torch
 def experiment():
     manifest = pd.read_csv("manifest.csv")
@@ -10,8 +12,11 @@ def experiment():
     test_df = manifest[manifest.split == "test"]
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    active_hist = run_loop("active", synthetic, pool_df, test_df, device, TRANSFORM)
-    random_hist = run_loop("random", synthetic, pool_df, test_df, device, TRANSFORM)
+    initial_model = build_model(device)
+    active_model = copy.deepcopy(initial_model)
+    random_model = copy.deepcopy(initial_model)
+    active_hist = run_loop("active", synthetic, pool_df, test_df, device, TRANSFORM, active_model)
+    random_hist = run_loop("random", synthetic, pool_df, test_df, device, TRANSFORM, random_model)
 
     all_hist = pd.concat([active_hist, random_hist])
     all_hist.to_csv("active_learning_results.csv", index=False)

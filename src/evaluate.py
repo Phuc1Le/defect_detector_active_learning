@@ -13,7 +13,7 @@ def get_probs_and_preds(model, df, device, transform, batch_size=32):
         imgs = imgs.to(device)
         logits = model(imgs)
         probs = torch.softmax(logits, dim=1)[:, 1]     # P(defective)
-        preds = (probs > 0.5).long().cpu()
+        preds = (probs > 0.65).long().cpu()
         all_probs.extend(probs.cpu().tolist())
         all_preds.extend(preds.tolist())
         all_labels.extend(labels.tolist())
