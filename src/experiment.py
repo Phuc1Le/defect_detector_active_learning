@@ -27,11 +27,8 @@ def experiment():
     all_results = []
 
     for seed in [0, 1, 2]:
-
         print(f"\n===== Seed {seed} =====")
-
         set_seed(seed)
-
         active_model = build_model(device)
         active_model.load_state_dict(initial_weights)
 
@@ -39,23 +36,23 @@ def experiment():
         random_model.load_state_dict(initial_weights)
 
         active_hist = run_loop(
-            active_model,
             "active",
             synthetic,
             pool_df,
             test_df,
             device,
             TRANSFORM,
+            active_model
         )
 
         random_hist = run_loop(
-            random_model,
             "random",
             synthetic,
             pool_df,
             test_df,
             device,
             TRANSFORM,
+            random_model
         )
 
         active_hist["seed"] = seed
