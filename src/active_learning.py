@@ -14,7 +14,7 @@ def pick_batch_random(unrevealed_df, probs, k, seed):
     return unrevealed_df.sample(n=min(k, len(unrevealed_df)), random_state=seed)
 
 def run_loop(strategy, synthetic_df, pool_df, test_df, device, transform, model,
-             k=20, n_rounds=8, seed=0):
+             k=20, n_rounds=9, seed=0):
     from train import train_model
     from evaluate import get_probs_and_preds, report
 

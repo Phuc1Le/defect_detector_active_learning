@@ -42,14 +42,10 @@ def train_model(model, train_df, device, epochs=4, lr=3e-4, batch_size=32):
     # Weight for every sample
     sample_weights = train_df["label"].map(class_weights).values
 
-    generator = torch.Generator()
-    generator.manual_seed(42)
-
     sampler = WeightedRandomSampler(
         weights=sample_weights,
         num_samples=len(train_df),
         replacement=True,
-        generator=generator,
     )
     dl = DataLoader(ds, batch_size=batch_size, sampler=sampler)
     opt = torch.optim.Adam(
