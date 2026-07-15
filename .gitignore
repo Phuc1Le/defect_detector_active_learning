@@ -6,4 +6,5 @@ __pycache__/
 *.zip
 .venv/
 models/
-results/
+manifest.csv
+synthetic_manifest.csv
