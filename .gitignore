@@ -2,7 +2,9 @@ data/
 venv/
 *.pt
 __pycache__/
-*.md
+week1_starter_checklist.md
+week2_4_plan.md
+PRD_defect_detector_active_learning.md
 *.zip
 .venv/
 models/
