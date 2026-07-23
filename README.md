@@ -1,4 +1,4 @@
-# Active Learning for Industrial Defect Detection
+# Active Learning for Industrial Bottle Defect Detection
 
 > Reducing manual labeling costs by combining synthetic data generation with active learning.
 
